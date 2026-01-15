@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Projects Weekly Progress</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1200px;
+            height: 100vh;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slide {
+            display: none;
+            flex: 1;
+            padding: 120px 50px 80px 50px;
+            animation: fadeIn 0.5s ease-in;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .project-badge {
+            position: absolute;
+            top: 20px;
+            right: 50px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .project-badge-center {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 25px;
+            font-size: 2.2em;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            z-index: 10;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Slide 1: Title Slide */
+        .slide-title {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slide-title h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .slide-title p {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .week-date {
+            font-size: 1.2em;
+            opacity: 0.8;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+        }
+
+        /* Slide 2: Projects Overview */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            font-size: 0.95em;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .project-card h3 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1.05em;
+            font-weight: 700;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-top: 10px;
+        }
+
+        .status-badge.active {
+            background: #10b981;
+        }
+
+        .status-badge.plannning {
+            background: #000000;
+        }
+
+        .status-badge.progress {
+            background: #568cf1;
+        }
+
+        .planning {
+            background: #000000;
+        }
+
+        /* Slide 3: Weekly Progress */
+        .progress-section {
+            margin-top: 20px;
+        }
+
+        .progress-item {
+            margin-bottom: 12px;
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 3px solid #667eea;
+            font-size: 1em;
+        }
+
+        .progress-item h3 {
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 1.25em;
+            font-weight: 700;
+        }
+
+        .progress-item p {
+            color: #666;
+            font-size: 1em;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e0e0;
+            border-radius: 4px;
+            margin-top: 12px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Slide 4: Achievements */
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .achievement-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .achievement-box:hover {
+            transform: scale(1.05);
+        }
+
+        .achievement-box .number {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .achievement-box p {
+            font-size: 1em;
+            opacity: 0.95;
+        }
+
+        /* Project Details Grid */
+        .project-details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            font-size: 0.95em;
+        }
+
+        .detail-card.working {
+            border-left-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .detail-card.in-progress {
+            border-left-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .detail-card.on-hold {
+            border-left-color: #ef4444;
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .detail-card h4 {
+            color: #333;
+            margin-bottom: 6px;
+            font-size: 1.05em;
+            font-weight: 700;
+        }
+
+        .detail-card .status-label {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .detail-card.working .status-label {
+            background: #10b981;
+        }
+
+        .detail-card.in-progress .status-label {
+            background: #f59e0b;
+        }
+
+        .detail-card.in-planning .status-label {
+            background: #646ef8;
+        }
+
+        .detail-card.on-hold .status-label {
+            background: #ef4444;
+        }
+
+        .detail-card .desc {
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+            font-size: 0.92em;
+        }
+
+        /* Slide Headers */
+        .slide h2 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 15px;
+            padding-right: 150px;
+        }
+
+        /* Add top margin to h2 when it follows a centered project badge */
+        .slide>.project-badge-center+h2 {
+            margin-top: 80px;
+        }
+
+        .slide h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 3px;
+        }
+
+        /* Navigation */
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+            flex-shrink: 0;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .slide-counter {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: #667eea;
+            width: 30px;
+            border-radius: 6px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 30px;
+                min-height: auto;
+            }
+
+            .slide-title h1 {
+                font-size: 2.5em;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .achievements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .slide h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="presentation-container">
+        <!-- Slide 1: Title -->
+        <div class="slide slide-title active">
+            <h1>🚀 AI Projects</h1>
+            <p>Weekly Progress & Achievements</p>
+            <div class="week-date">Week of January 8 - 14, 2026</div>
+            <div
+                style="margin-top: 25px; font-size: 0.9em; opacity: 0.9; background: rgba(255, 255, 255, 0.15); padding: 12px 20px; border-radius: 8px; display: inline-block;">
+                <strong>📌 AIA = AI Agent</strong>
+            </div>
+        </div>
+
+        <!-- Slide 2: Projects Overview -->
+        <div class="slide">
+            <div class="project-badge">Projects</div>
+            <h2>Total AI Projects We've Worked On and Are Working On</h2>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>🏢 1. SAAS - QA</h3>
+                    <div class="status-badge progress">In Progress</div>
+                </div>
+                <div class="project-card">
+                    <h3>☎️ 2. AI Voice Telecaller</h3>
+                    <div class="status-badge planning">In Planning</div>
+                </div>
+                <div class="project-card">
+                    <h3>⚡ 3. FastRanking - QA AIA</h3>
+                    <div class="status-badge active">Active</div>
+                </div>
+                <div class="project-card">
+                    <h3>🔧 4. VeeRepairs - QA AIA</h3>
+                    <div class="status-badge active">Active</div>
+                </div>
+                <div class="project-card">
+                    <h3>👥 5. Customer Service - QA AIA</h3>
+                    <div class="status-badge active">Active</div>
+                </div>
+                <div class="project-card">
+                    <h3>📋 6. Disposition - QA AIA</h3>
+                    <div class="status-badge active">Active</div>
+                </div>
+                <div class="project-card">
+                    <h3>📱 7. Sparta Telecom - QA AIA</h3>
+                    <div class="status-badge planning">In Planning</div>
+                </div>
+                <div class="project-card">
+                    <h3>🔍 8. SEO - QA AIA</h3>
+                    <div class="status-badge active">Active</div>
+                </div>
+                <div class="project-card">
+                    <h3>🏠 9. VeeRepair Lead Gen - QA AIA</h3>
+                    <div class="status-badge progress">In Progress</div>
+                </div>
+            </div>
+
+            <div
+                style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-radius: 15px; padding: 30px; margin-top: 30px; text-align: center; border-left: 5px solid #667eea;">
+                <div style="font-size: 3.5em; font-weight: 900; color: #667eea; margin-bottom: 15px;">9</div>
+                <h3 style="font-size: 1.4em; color: #333; margin-bottom: 15px; font-weight: 700;">AI-Powered Projects
+                    Driving Digital Transformation</h3>
+                <p style="font-size: 1.05em; color: #555; line-height: 1.8; margin: 0;">
+                    Our company is embracing cutting-edge AI and automation technology across 9 distinct projects. This
+                    demonstrates our commitment to innovation and positions us at the forefront of the industry.
+                </p>
+                <p style="font-size: 1.1em; color: #667eea; font-weight: 600; margin-top: 15px; margin-bottom: 0;">
+                    ✨ Future-Ready | Scalable | Competitive Advantage ✨
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Project Details Status -->
+        <div class="slide">
+            <div class="project-badge">Overview</div>
+            <h2>Project Status & Current Position</h2>
+            <div class="project-details-grid">
+                <div class="detail-card in-progress">
+                    <h4>🏢 #1 SAAS - QA</h4>
+                    <p class="status-badge progress">In Progress</p>
+                    <p class="desc">Core system 100% complete but Docker deployment blocking usage (CRITICAL)</p>
+                </div>
+                <div class="detail-card  ">
+                    <h4>☎️ #2 AI Voice Telecaller</h4>
+                    <p class="status-label planning">In Planning</p>
+                    <p class="desc"> Received technical architecture from Awnish sir—need to schedule collaborative
+                        discussion for review and alignment.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>⚡ #3 FastRanking - QA AIA</h4>
+                    <p class="status-label">Working</p>
+                    <p class="desc">quality agent using our QA system; current overall approval match rate is 92.85%.
+                    </p>
+                </div>
+                <div class="detail-card on-hold">
+                    <h4>🔧 #4 VeeRepairs - QA AIA</h4>
+                    <p class="status-label">On Hold</p>
+                    <p class="desc">QA agent not using it because they require cumulative result feature—awaiting
+                        implementation to enable adoption.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>👥 #5 Customer Service - QA AIA</h4>
+                    <p class="status-label">Working</p>
+                    <p class="desc">Need to update prompt as planned—will do it; currently waiting for team engagement
+                        and adoption.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>📋 #6 Disposition - QA AIA</h4>
+                    <p class="status-label">Working</p>
+                    <p class="desc">Actual agent not uploading files—instead Aditya uploads calls and tests directly; no
+                        technical blockers.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>📱 #7 Sparta Telecom - QA AIA</h4>
+                    <p class="status-badge planning">In Planning</p>
+                    <p class="desc">In planning phase—actively gathering checklist items with fatal and non-fatal error
+                        classification.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🔍 #8 SEO - QA AIA</h4>
+                    <p class="status-label">Working</p>
+                    <p class="desc">Approximately 14-15 fields automated out of 25 (~60% automation); automatic reports
+                        and CRM integration working smoothly.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🏠 #9 VeeRepair Lead Gen - QA AIA</h4>
+                    <p class="status-badge progress">In Progress</p>
+                    <p class="desc">By tomorrow EOD (Jan 15) it will be complete and ready for testing and production
+                        deployment.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: QA SaaS - Last Week's Completion -->
+        <div class="slide">
+            <div class="project-badge-center">Project #1</div>
+            <h2>QA SaaS Project - Last Week's Milestone</h2>
+            <div class="project-details-grid">
+                <div class="detail-card working">
+                    <h4>✅ FastRanking - Complete Cumulative Result</h4>
+                    <p class="status-label">Completed</p>
+                    <p class="desc">Successfully completed cumulative result implementation for FastRanking with full
+                        call order integration. All ranking metrics are now aggregated and displayed accurately with
+                        proper call sequence tracking.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>📊 Call Order Integration</h4>
+                    <p class="status-label">Completed</p>
+                    <p class="desc">Integrated complete call order system into the QA evaluation pipeline. Ensures
+                        proper sequencing of quality assessments and maintains data integrity throughout the ranking
+                        process.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🎯 Cumulative Metrics</h4>
+                    <p class="status-label">Completed</p>
+                    <p class="desc">Implemented comprehensive cumulative result tracking. Provides real-time aggregation
+                        of all QA metrics with historical data preservation and trend analysis capabilities.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>📈 Data Validation</h4>
+                    <p class="status-label">Completed</p>
+                    <p class="desc">All cumulative data validated and verified. 100% accuracy achieved in call order
+                        sequencing and result aggregation across all test scenarios.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: QA SaaS - This Week's Innovation -->
+        <div class="slide">
+            <div class="project-badge">Project #1</div>
+            <h2>QA SaaS - VeeRepairs & Generic Architecture</h2>
+            <div class="progress-section">
+                <div class="progress-item">
+                    <h3>🔄 VeeRepairs Process Implementation</h3>
+                    <p>Implemented the VeeRepairs process architecture, building a fully generic and scalable QA system
+                        that removes the need for manual code changes per process.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <h3>🏗️ Generic Project Architecture</h3>
+                    <p>Redesigned the QA SaaS platform to be process-agnostic. Add a process configuration and its
+                        prompt, and the system generates cumulative results automatically without code edits.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <h3>⚙️ Dynamic Process Configuration</h3>
+                    <p>Added flexible prompt management so each process has its dedicated prompt and checklist
+                        configuration. The platform adapts to new processes without refactoring.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="project-badge">Project #1</div>
+            <h2>QA SaaS - Generic Code </h2>
+            <div class="progress-section">
+                <div class="progress-item">
+                    <h3>🧩 Generic Code Highlight</h3>
+                    <p>The core code is now generic: no hardcoded extraction or process-specific logic remains. The
+                        system reads process configuration and prompts to drive extraction, scoring, and cumulative
+                        aggregation.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <h3>🛠️ How to Add a New Process</h3>
+                    <p>1) Add new process configuration with its prompt and checklist items. 2) Define expected data
+                        fields (e.g., question counts, numeric fields). 3) Upload files — system auto-detects format and
+                        extracts numbers & timestamps. 4) Cumulative results (with call numbers) are produced
+                        automatically.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <h3>✨ Result: Zero Manual Intervention</h3>
+                    <p>Once configured, new processes are plug-and-play: set checklist items and counts, and the system
+                        returns cumulative results with call numbers—no code changes required.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: QA SaaS - Multi-Format File Extraction Solution -->
+
+
+        <!-- Slide 9: Deployment & Setup Timeline -->
+        <div class="slide">
+            <div class="project-badge">Project #1</div>
+            <h2>Deployment & Setup — Timeline</h2>
+            <div class="progress-section">
+                <div class="progress-item">
+                    <h3>🧭 Disk Space & Initial Failure</h3>
+                    <p>IT provided an extra 20 GB on C: but it was still insufficient during the first build. Docker
+                        build crashed due to low disk space.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <h3>💾 Backup & Reset</h3>
+                    <p>Took a full backup and pushed code to Git before resetting the system. Reinstalled OS and
+                        dependencies, then restored code and environment.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <h3>🔁 Rebuild & Docker</h3>
+                    <p>After restoring, rebuilds mostly succeeded. Docker images build and containers run, but runtime
+                        issues remain when running QA jobs inside containers.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Milestone Report Shared -->
+        <div class="slide">
+            <div class="project-badge">Project #1</div>
+            <h2>QA SaaS — Milestone Report Shared</h2>
+            <div class="progress-section">
+                <div class="progress-item">
+                    <h3>📄 Detailed Milestone Report</h3>
+                    <p>I prepared a detailed QA SaaS milestone report summarizing progress, blockers, and next steps.
+                        The report contains implementation details, deployment notes, and diagnostics.</p>
+                    <p style="margin-top: 10px;"><a
+                            href="https://docs.google.com/document/d/1JZDbumY7LdSITID35F9DkoDW95_jA9ytfbI1ijZ8MvQ/edit?tab=t.0#heading=h.jwd0hw6ns5j"
+                            target="_blank"
+                            style="color: #667eea; font-weight: 600; text-decoration: none; border-bottom: 2px solid #667eea; padding-bottom: 2px;">📌
+                            Open Full Report</a></p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <h3>📧 Report Distribution</h3>
+                    <p>The milestone report was shared via email to all respective team members yesterday — please check
+                        your inbox for the full document and attachments.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <h3>🔎 Next</h3>
+                    <p>Review the report and provide feedback; we'll incorporate actions into the runbook and schedule a
+                        DevOps pairing session to debug the Docker runtime issues.</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: QA SaaS - Major Achievement: Core System Complete -->
+        <div class="slide">
+            <div class="project-badge">Project #1</div>
+            <h2>🎯 Major Breakthrough: Core QA SaaS System Complete</h2>
+            <div class="project-details-grid">
+                <div class="detail-card working">
+                    <h4>✅ Completed: Cumulative Results (Jan 8th)</h4>
+                    <p class="status-label">Milestone</p>
+                    <p class="desc">Implemented full cumulative result aggregation with call number order tracking.
+                        Completed last Thursday (January 8th) — provides real-time cumulative scoring and ranking.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>✅ Generic & Process-Agnostic Architecture</h4>
+                    <p class="status-label">Complete</p>
+                    <p class="desc">Core system is now fully generic and process-agnostic. Works seamlessly with any
+                        process — no more hardcoding agent-specific logic. Just add process + checklist, and system
+                        handles everything.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🚀 End Goal Achieved</h4>
+                    <p class="status-label">Ready</p>
+                    <p class="desc">No need to build agents separately on n8n anymore. Our QA SaaS product fulfills
+                        every requirement: cumulative results, call order, generic architecture, automatic file format
+                        detection (40+ formats).</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>💡 Strategic Advantage</h4>
+                    <p class="status-label">Enabled</p>
+                    <p class="desc">Can now directly integrate new projects into QA SaaS platform instead of building
+                        n8n flows. Faster onboarding, consistent quality, and complete feature parity across all
+                        projects.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>⚡ Critical Blocker</h4>
+                    <p class="status-label">Blocking Deployment</p>
+                    <p class="desc">Despite core system completion, cannot yet use the product. Only pending issue: API
+                        not available to frontend developers due to deployment challenges.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>📊 Business Impact</h4>
+                    <p class="status-label">High Priority</p>
+                    <p class="desc">Resolving deployment issue unlocks: immediate product usage, end-to-end QA testing,
+                        feedback loop for optimization, and rapid iteration on remaining features.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: QA SaaS - Docker Deployment Challenge -->
+        <div class="slide">
+            <div class="project-badge">Project #1</div>
+            <h2>⚠️ Critical Challenge: Docker Deployment & API Availability</h2>
+            <div class="project-details-grid">
+                <div class="detail-card in-progress">
+                    <h4>🎯 Objective</h4>
+                    <p class="status-label">In Progress</p>
+                    <p class="desc">Deploy QA SaaS system in development environment so API is accessible and available
+                        to frontend developers for integration and testing.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>📅 Timeline: Started Jan 8th</h4>
+                    <p class="status-label">1 Week</p>
+                    <p class="desc">Started Docker deployment efforts last Thursday (Jan 8th) immediately after
+                        completing cumulative results. Now in week-long debugging cycle with multiple obstacles.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>🐳 Docker Approach</h4>
+                    <p class="status-label">Chosen Method</p>
+                    <p class="desc">Using Docker containerization to package QA SaaS system for dev environment. Goal:
+                        Ensure consistent, reproducible deployment and easy API accessibility for frontend team.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>🔴 Challenges Encountered</h4>
+                    <p class="status-label">Multiple Issues</p>
+                    <p class="desc"><strong>• Container startup issues</strong><br>• API connectivity problems<br>•
+                        Database connection in Docker<br>• Environment variable configuration<br>• Port mapping and
+                        network issues<br>• Resource constraints in container</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>👥 Collaboration: With Awnish Sir</h4>
+                    <p class="status-label">Active Support</p>
+                    <p class="desc">Working closely with Awnish sir to resolve Docker deployment challenges. Implemented
+                        all recommendations and guidance provided, but issues persist and need deeper investigation.</p>
+                </div>
+                <div class="detail-card on-hold">
+                    <h4>⏸️ Current Status</h4>
+                    <p class="status-label">Not Yet Resolved</p>
+                    <p class="desc">Despite extensive troubleshooting and following all guidance, system is not yet at a
+                        position where frontend team can smoothly access and use the API from development environment.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: QA SaaS - Deployment Urgency & Roadmap -->
+        <div class="slide">
+            <div class="project-badge">Project #1</div>
+            <h2>🚀 Deployment Urgency: Critical Path to Product Launch</h2>
+            <div class="project-details-grid">
+                <div class="detail-card in-progress">
+                    <h4>🔥 Urgency: ASAP</h4>
+                    <p class="status-label">Critical</p>
+                    <p class="desc">This is the only remaining blocker to using our complete product. Core system is
+                        production-ready. Fixing deployment is the highest priority to unlock immediate product value.
+                    </p>
+                </div>
+                <div class="detail-card working">
+                    <h4>✅ Why This Matters</h4>
+                    <p class="status-label">Business Value</p>
+                    <p class="desc"><strong>1. Immediate Usage:</strong> Can start using QA SaaS for all 9
+                        projects<br><strong>2. Full Testing:</strong> End-to-end QA testing across entire
+                        system<br><strong>3. Feedback Loop:</strong> Identify improvement opportunities<br><strong>4.
+                            Optimization:</strong> Fine-tune based on real usage</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>📋 Immediate Next Steps</h4>
+                    <p class="status-label">Action Plan</p>
+                    <p class="desc"><strong>1. Root Cause Analysis:</strong> Deep dive into Docker logs and API
+                        connectivity<br><strong>2. Environment Validation:</strong> Verify all dependencies and
+                        configurations<br><strong>3. API Testing:</strong> Ensure endpoints accessible from
+                        frontend<br><strong>4. Load Testing:</strong> Validate under realistic conditions</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>📅 Post-Deployment Roadmap</h4>
+                    <p class="status-label">Planned Features</p>
+                    <p class="desc"><strong>Phase 1 (After Deployment):</strong><br>• Start using QA SaaS across all 9
+                        projects<br>• Comprehensive testing & optimization<br><br><strong>Phase 2 (SaaS
+                            Features):</strong><br>• User Management & Roles<br>• Billing & Invoicing<br>• Payment
+                        Gateway Integration<br>• Subscription Management<br>• Advanced Analytics & Reporting</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>🎯 Vision: Excellent SaaS Product</h4>
+                    <p class="status-label">Goal</p>
+                    <p class="desc">Once deployment is fixed, rapidly iterate through post-deployment features to build
+                        a truly excellent, production-grade SaaS product with all enterprise features.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>💪 Commitment</h4>
+                    <p class="status-label">Determined</p>
+                    <p class="desc">Fix deployment issue immediately and get system live. Once API is available, unlock
+                        product potential and start delivery real business value across all projects.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: QA SaaS - Design & Frontend Challenges -->
+        <div class="slide">
+            <div class="project-badge">Project #1</div>
+            <h2>⚠️ Critical Gap: Design & Frontend Challenges</h2>
+            <div class="project-details-grid">
+                <div class="detail-card on-hold">
+                    <h4>🎨 Design Knowledge Gap</h4>
+                    <p class="status-label">Critical</p>
+                    <p class="desc"><strong>• Designers lack full product vision<br>• Not aligned with development
+                            team<br>• Missing understanding of user flows<br>• Incomplete wireframes<br>• Design created
+                            without context</strong></p>
+                </div>
+                <div class="detail-card on-hold">
+                    <h4>💻 Frontend Integration Gap</h4>
+                    <p class="status-label">Critical</p>
+                    <p class="desc"><strong>• Static pages complete but not functional<br>• No API integration done<br>•
+                            No dynamic data binding<br>• Missing user interactions<br>• Frontend isolated from
+                            backend</strong></p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>🔍 Root Cause Analysis</h4>
+                    <p class="status-label">Identified</p>
+                    <p class="desc"><strong>1. Design started without product vision<br>2. Frontend team received
+                            designs without context<br>3. No wireframing phase before design<br>4. Lack of cross-team
+                            communication<br>5. Missing specifications & requirements documentation</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: QA SaaS - Design & Frontend Solution -->
+        <div class="slide">
+            <div class="project-badge">Project #1</div>
+            <h2>✅ Solution: 3-Phase Approach to Fix Design & Frontend</h2>
+            <div class="project-details-grid">
+                <div class="detail-card in-progress">
+                    <h4>📋 Phase 1: Low-Fidelity Wireframing</h4>
+                    <p class="status-label">Starting Now</p>
+                    <p class="desc"><strong>Shivam Mahto & Akram Sir<br><br>Deliverables:<br>• Complete wireframes with
+                            all user flows<br>• Interaction definitions<br>• API to UI component mapping<br>• User
+                            journey documentation<br><br>Duration: 3-4 days</strong></p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>🎨 Phase 2: High-Fidelity Design</h4>
+                    <p class="status-label">After Wireframes</p>
+                    <p class="desc"><strong>Upon wireframe approval:<br>• Designer creates pixel-perfect designs<br>•
+                            Full product vision integration<br>• Aligned with technical capabilities<br>• Complete
+                            design specifications<br>• Component library definition<br><br>Duration: 5-7 days</strong>
+                    </p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>💻 Phase 3: Frontend Development</h4>
+                    <p class="status-label">After Design</p>
+                    <p class="desc"><strong>• API integration with backend<br>• Dynamic data binding<br>• Real-time UI
+                            updates<br>• Form handling & validation<br>• Error handling & edge cases<br>• User
+                            interaction flows<br><br>Duration: 2-3 weeks</strong></p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🤝 Cross-Team Alignment</h4>
+                    <p class="status-label">Essential</p>
+                    <p class="desc"><strong>• Daily syncs between design & frontend<br>• Feedback loops at each
+                            phase<br>• Technical feasibility reviews<br>• User experience validation<br>• Requirements
+                            clarification<br>• No isolated work — constant collaboration</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: QA SaaS - Priority Roadmap & Docker Focus -->
+        <div class="slide">
+            <div class="project-badge">Project #1</div>
+            <h2>🚀 Priority Roadmap: Docker First, Then Design & Frontend</h2>
+            <div class="project-details-grid">
+                <div class="detail-card in-progress">
+                    <h4>🔴 Priority 1: Docker Setup & Stability (CRITICAL)</h4>
+                    <p class="status-label">Blocking All</p>
+                    <p class="desc"><strong>Objective:</strong> Make Docker setup 100% reliable and
+                        production-ready<br><br><strong>Why Critical:<br>• Frontend team needs stable backend<br>• API
+                            integration requires reliable environment<br>• Prevents repeated debugging<br>• Enables
+                            smooth development workflow</strong></p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>✓ Docker Tasks (1-2 weeks)</h4>
+                    <p class="status-label">In Progress</p>
+                    <p class="desc"><strong>1. Comprehensive Docker testing<br>2. Document all configuration steps<br>3.
+                            Create automated setup scripts<br>4. Test on clean environments<br>5. Resolve all known
+                            issues<br>6. Create troubleshooting guide<br>7. Validation checklist</strong></p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>🎨 Priority 2: Design & Frontend (After Docker)</h4>
+                    <p class="status-label">Next Phase</p>
+                    <p class="desc"><strong>Timeline: Starts after Docker is stable<br><br>Phase 1: Wireframing (3-4
+                            days)<br>Phase 2: High-Fidelity Design (5-7 days)<br>Phase 3: Frontend Dev (2-3
+                            weeks)<br><br>Total: ~3-4 weeks with Docker ready</strong></p>
+                </div>
+                <div class="detail-card working">
+                    <h4>📅 Overall Timeline</h4>
+                    <p class="status-label">Planned</p>
+                    <p class="desc"><strong>Now to Feb 15, 2026:</strong><br>• Jan 14-20: Docker stabilization<br>• Jan
+                        20-24: Wireframing phase<br>• Jan 24-31: High-fidelity design<br>• Feb 1-15: Frontend
+                        development & integration<br><br>By Feb 15: Full end-to-end product ready!</strong></p>
+                </div>
+                <div class="detail-card working">
+                    <h4>⚡ Success Criteria</h4>
+                    <p class="status-label">Definition of Done</p>
+                    <p class="desc"><strong>• Docker: API accessible from any environment<br>• Design: All screens
+                            designed & approved<br>• Frontend: Fully functional UI with API integration<br>• Testing:
+                            End-to-end workflows validated<br>• Ready: Product usable by all 9 projects</strong></p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🎯 Team Accountability</h4>
+                    <p class="status-label">Clear Ownership</p>
+                    <p class="desc"><strong>Docker: Awnish sir + DevOps<br>Wireframing: Shivam Mahto + Akram
+                            Sir<br>Design: Designer (TBD)<br>Frontend: Frontend team<br><br>Daily standups & weekly
+                            reviews</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Voice AI Agent - Technical Architecture Discussion -->
+        <div class="slide">
+            <div class="project-badge-center">Project #2</div>
+            <h2>Voice AI Agent — Technical Architecture Discussion</h2>
+            <div class="project-details-grid">
+                <div class="detail-card working">
+                    <h4>📋 Architecture Received</h4>
+                    <p class="status-label">Ready for Review</p>
+                    <p class="desc">Received detailed technical architecture from Awnish sir for the Voice AI Agent
+                        project.</p>
+                    <p style="margin-top: 10px;"><a
+                            href="https://drive.google.com/file/d/1xyXYf0pLZGc7dQ7jVQRxrY1OfiZiyJ49/view"
+                            target="_blank"
+                            style="color: #667eea; font-weight: 600; text-decoration: none; border-bottom: 2px solid #667eea; padding-bottom: 2px;">📄
+                            View Technical Architecture</a></p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>🎯 Next Steps</h4>
+                    <p class="status-label">Discussion Scheduled</p>
+                    <p class="desc">Schedule a collaborative discussion with the team to review the architecture,
+                        clarify design decisions, identify dependencies, and align on implementation approach.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>👥 Collaborative Review</h4>
+                    <p class="status-label">Action Item</p>
+                    <p class="desc">Team members to review the architecture document and prepare questions/feedback.
+                        Collaborative session will cover technical feasibility, scalability, and integration with
+                        existing QA SaaS platform.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🚀 Expected Outcome</h4>
+                    <p class="status-label">Goal</p>
+                    <p class="desc">Finalize architecture, create implementation roadmap, assign components to team
+                        members, and begin development sprints following approved design.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: FastRanking QA AIA - Active Issues & Metrics -->
+        <div class="slide">
+            <div class="project-badge-center">Project #3</div>
+            <h2>FastRanking - QA AIA: Active Issues & Performance Metrics</h2>
+            <div class="project-details-grid">
+                <div class="detail-card working">
+                    <h4>✅ Project Status</h4>
+                    <p class="status-label">Active in Production</p>
+                    <p class="desc">FastRanking QA AIA is actively being used by Sandeep sir. System is processing
+                        ranking evaluations and cumulative results successfully.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>⚠️ Transcription Issue - Files Stuck</h4>
+                    <p class="status-label">Under Investigation</p>
+                    <p class="desc">When 3+ files are uploaded simultaneously, some files get stuck in the transcription
+                        queue. Sandeep sir highlighted this issue. Aditya Dewan is investigating root cause and working
+                        on a solution.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>👥 Team Collaboration</h4>
+                    <p class="status-label">In Progress</p>
+                    <p class="desc"><strong>Sandeep Negi:</strong> Identified the transcription queue issue during
+                        production usage.<br><strong>Aditya Dewan:</strong> Currently debugging and working on fix for
+                        concurrent file handling.</p>
+                </div>
+                <!-- <div class="detail-card working">
+                    <h4>📊 Human vs AI Metric Results</h4>
+                    <p class="status-label">Calculated by Aditya & Sandeep</p>
+                    <p class="desc"><strong>Results calculated through collaboration of:</strong><br>• Aditya Dewan<br>• Sandeep Negi<br><br><em>Detailed metrics to be added</em></p>
+                </div> -->
+                <div class="detail-card working">
+                    <h4>📊 Human vs AI Metric Results</h4>
+                    <p class="status-label">Calculated by Aditya & Sandeep</p>
+                    <p class="desc">
+                        <strong>Quality Agent Performance Summary:</strong><br>
+                        • <strong>Overall Accuracy:</strong> 88.75% (142 correct out of 160 calls)<br>
+                        • <strong>Approval Decisions:</strong> 92.85% accuracy (104/112) — ↑95.12% this period<br>
+                        • <strong>Rejection Decisions:</strong> 79.16% accuracy (38/48)<br><br>
+                        <em>Strong performance on approvals with 95.12% accuracy since last meeting. Total evaluation
+                            accuracy maintained at 88.75% across all calls analyzed.</em>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Slide 14: VeeRepairs - QA AIA Project #4 -->
+        <div class="slide">
+            <div class="project-badge-center">Project #4</div>
+            <h2>VeeRepairs - QA AIA: Live & Awaiting Adoption</h2>
+            <div class="project-details-grid">
+                <div class="detail-card working">
+                    <h4>✅ Status: Live & Functional</h4>
+                    <p class="status-label">Deployed</p>
+                    <p class="desc">VeeRepairs QA AIA system is live and working perfectly. All components are
+                        operational and ready for use by the VeeRepairs team.</p>
+                </div>
+                <div class="detail-card on-hold">
+                    <h4>⏸️ Team Adoption - On Hold</h4>
+                    <p class="status-label">Blocked</p>
+                    <p class="desc">The VeeRepairs team requested cumulative results functionality. Currently, they are
+                        not using the system and have stopped uploading files until cumulative features are implemented.
+                    </p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>🎯 Next Steps</h4>
+                    <p class="status-label">Planned</p>
+                    <p class="desc">Implement cumulative results feature to meet VeeRepairs team requirements and enable
+                        them to start uploading and using the system in production.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>📊 Technical Status</h4>
+                    <p class="status-label">Ready</p>
+                    <p class="desc">All backend services, data processing, and QA evaluation logic are fully functional.
+                        Awaiting feature addition and team adoption.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Customer Service - QA AIA Project #5 -->
+        <div class="slide">
+            <div class="project-badge-center">Project #5</div>
+            <h2>Customer Service - QA AIA: Live But Not in Use</h2>
+            <div class="project-details-grid">
+                <div class="detail-card working">
+                    <h4>✅ Implementation: Complete</h4>
+                    <p class="status-label">Deployed</p>
+                    <p class="desc">Customer Service QA AIA platform has been built and deployed to production. All
+                        systems are operational and ready for use.</p>
+                </div>
+                <div class="detail-card on-hold">
+                    <h4>⏸️ Adoption Status</h4>
+                    <p class="status-label">No Activity</p>
+                    <p class="desc">The Customer Service team has not started using the platform. No uploads or QA
+                        evaluations being processed at this time.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>💬 Next Steps</h4>
+                    <p class="status-label">Engagement Needed</p>
+                    <p class="desc">Follow up with Customer Service team to understand requirements, provide training,
+                        and facilitate initial data uploads to drive adoption and usage.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🔧 System Status</h4>
+                    <p class="status-label">Operational</p>
+                    <p class="desc">All infrastructure, configurations, and QA logic are in place and functioning
+                        correctly. System awaiting team engagement and data uploads.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Disposition - QA AIA Project #6 -->
+        <div class="slide">
+            <div class="project-badge-center">Project #6</div>
+            <h2>Disposition - QA AIA: Active but Sporadic Uploads</h2>
+            <div class="project-details-grid">
+                <div class="detail-card working">
+                    <h4>✅ System Status: Live</h4>
+                    <p class="status-label">Active</p>
+                    <p class="desc">Disposition QA AIA system is live and actively operational in production. All
+                        evaluation logic and processing pipelines are functioning correctly.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🤖 System Architecture</h4>
+                    <p class="status-label">Configured</p>
+                    <p class="desc">Aditya Dewan's Disposition system has both:<br>• Bot agent handling automated
+                        calls<br>• Calling agent handling agent-assisted calls<br><br>Both agents generate output for QA
+                        evaluation.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>📤 Upload Frequency: Sometimes</h4>
+                    <p class="status-label">Sporadic</p>
+                    <p class="desc">The Disposition agents (both bot and calling agent) sometimes upload files for QA
+                        evaluation. Uploads are not regular, but this is due to time constraints, not system blockers or
+                        technical issues.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>⚠️ Root Cause: No Blockers</h4>
+                    <p class="status-label">Time Constraint</p>
+                    <p class="desc">There are NO technical or operational blockers. The Disposition team simply doesn't
+                        have much time to familiarize themselves with the system. Executives have been very busy with
+                        their primary responsibilities.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>👥 Getting to Know System</h4>
+                    <p class="status-label">Awareness Building</p>
+                    <p class="desc">Need to connect with Aditya Dewan to get more details about the actual executive
+                        team's bandwidth and schedule. Understanding when they can dedicate time to QA uploads will help
+                        set realistic expectations.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🎯 Next Steps</h4>
+                    <p class="status-label">Engagement</p>
+                    <p class="desc">Schedule sync with Aditya Dewan to discuss team availability, provide training if
+                        needed, and establish a realistic QA upload schedule that fits their operational workflow.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: SEO - QA AIA Project #7 -->
+        <div class="slide">
+            <div class="project-badge-center">Project #7</div>
+            <h2>SEO - QA AIA: Smooth Operations & High Adoption</h2>
+            <div class="project-details-grid">
+                <div class="detail-card working">
+                    <h4>✅ Status: Running Smoothly</h4>
+                    <p class="status-label">Operational</p>
+                    <p class="desc">SEO QA AIA system is running smoothly in production with consistent, reliable
+                        performance. All evaluation processes are automated and working as intended.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🚀 Active User Adoption</h4>
+                    <p class="status-label">High Engagement</p>
+                    <p class="desc">SEO executives are actively using the system at every booking. Whenever a website
+                        exists, the system automatically generates QA reports and integrates them into the CRM for
+                        immediate access and review.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>📊 Automation Level: 68%</h4>
+                    <p class="status-label">Configured</p>
+                    <p class="desc">Approximately 17 out of 25 fields are currently automated (~68% automation). These
+                        automated fields cover core SEO evaluation criteria and major performance metrics.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🎯 CRM Integration & Reporting</h4>
+                    <p class="status-label">Live</p>
+                    <p class="desc">Automatic report generation and CRM integration enables SEO executives to view
+                        results directly in their workflow. Reports are accessible and actionable without manual
+                        intervention.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>📈 Future Enhancement</h4>
+                    <p class="status-label">Planned</p>
+                    <p class="desc">Expand automation to cover remaining 8 fields (~32%) to achieve full end-to-end
+                        automation. Prioritize fields that provide highest business value.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>✨ Success Metric</h4>
+                    <p class="status-label">Achieved</p>
+                    <p class="desc">Project #7 demonstrates strong product-market fit with high adoption, smooth
+                        operations, and measurable business impact through automated reporting and CRM integration.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Sparta Telecom - QA AIA Project #8 -->
+        <div class="slide">
+            <div class="project-badge-center">Project #8</div>
+            <h2>Sparta Telecom - QA AIA: Requirements Gathering in Progress</h2>
+            <div class="project-details-grid">
+                <div class="detail-card in-progress">
+                    <h4>📋 Current Phase: Requirements Definition</h4>
+                    <p class="status-label">In Progress</p>
+                    <p class="desc">Sparta Telecom QA AIA project is in the requirements and specification phase.
+                        Currently defining checklist items and classification criteria for QA evaluation.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>🔄 Checklist Items Development</h4>
+                    <p class="status-label">In Progress</p>
+                    <p class="desc">Working on defining comprehensive checklist items for QA evaluation. Items need to
+                        capture all critical quality metrics and business requirements specific to Sparta Telecom's
+                        operations.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>⚠️ Fatal vs Non-Fatal Classification</h4>
+                    <p class="status-label">In Progress</p>
+                    <p class="desc">Defining classification criteria to distinguish between fatal (critical, breaks
+                        system) and non-fatal (minor, degraded experience) issues. This taxonomy will drive QA severity
+                        scoring.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>👥 Coordination with Aditya</h4>
+                    <p class="status-label">Active</p>
+                    <p class="desc">Latest specifications and checklist items received from Aditya Dewan. Incorporating
+                        feedback and finalizing requirements based on his insights and recommendations.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>🚀 Next Milestone</h4>
+                    <p class="status-label">Upcoming</p>
+                    <p class="desc">Once checklist items and fatal/non-fatal classification are finalized and marked,
+                        development will commence on the actual QA AIA implementation for Sparta Telecom.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>📅 Timeline</h4>
+                    <p class="status-label">On Track</p>
+                    <p class="desc">Requirements gathering phase expected to complete soon. Development and
+                        implementation to follow upon finalization of specifications and team sign-off.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: VeeRepair Lead Gen - QA AIA Project #9 -->
+        <div class="slide">
+            <div class="project-badge-center">Project #9</div>
+            <h2>VeeRepair Lead Gen - New Process: Implementation in Progress</h2>
+            <div class="project-details-grid">
+                <div class="detail-card in-progress">
+                    <h4>🎯 Project Phase: New Process Development</h4>
+                    <p class="status-label">In Progress</p>
+                    <p class="desc">VeeRepair Lead Gen project is implementing a new process. This involves lead
+                        generation, upfront sales agent conversion, and comprehensive QA evaluation pipeline.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>👥 Team Collaboration</h4>
+                    <p class="status-label">Active</p>
+                    <p class="desc">Discussed requirements with:<br>• Chandan Sir<br>• Baben Sir<br>• Akram
+                        Sir<br><br>All stakeholders involved in process definition and requirements gathering.</p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>📝 Process Changes Underway</h4>
+                    <p class="status-label">In Progress</p>
+                    <p class="desc">VeeRepair process has been modified to support dual workflow: 1) Lead generation
+                        agents create qualified leads, 2) Upfront agents convert leads into sales. Both stages require
+                        QA evaluation.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>✅ Checklist & Classification Complete</h4>
+                    <p class="status-label">Received</p>
+                    <p class="desc">Already received comprehensive checklist items with fatal and non-fatal
+                        classification from the team. QA evaluation criteria are defined and ready for implementation.
+                    </p>
+                </div>
+                <div class="detail-card in-progress">
+                    <h4>⏳ Implementation Status</h4>
+                    <p class="status-label">Final Phase</p>
+                    <p class="desc">All requirements and specifications finalized. Implementation is actively underway
+                        to build QA evaluation logic for both lead generation and conversion stages.</p>
+                </div>
+                <div class="detail-card working">
+                    <h4>🎯 Target Completion</h4>
+                    <p class="status-label">Tomorrow EOD</p>
+                    <p class="desc">Expected to complete implementation by tomorrow end of day (Jan 15, 2026). Once
+                        complete, system will be ready for testing and production deployment.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Thank You -->
+        <div class="slide slide-title"
+            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h1 style="font-size: 3.2em; margin-bottom: 30px; color: white;">Thank You!</h1>
+            <p style="font-size: 1.4em; margin-bottom: 40px; color: rgba(255, 255, 255, 0.95); line-height: 1.8;">
+                Thank you to all team members for joining this week's progress review and contributing your amazing
+                efforts.
+            </p>
+            <div
+                style="background: rgba(255, 255, 255, 0.15); padding: 30px; border-radius: 15px; margin-bottom: 30px; backdrop-filter: blur(10px);">
+                <p style="font-size: 1.2em; color: white; margin-bottom: 15px; font-weight: 600;">
+                    Hoping next week brings even more productivity and progress! 🚀
+                </p>
+                <p style="font-size: 1.1em; color: rgba(255, 255, 255, 0.9); margin: 0; line-height: 1.6;">
+                    Together, we're building amazing products and delivering exceptional value.
+                </p>
+            </div>
+            <p style="font-size: 1.3em; font-weight: 600; color: white; margin-top: 40px;">
+                Let's make next week even better! 💪
+            </p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <div class="dots" id="dotsContainer"></div>
+            <div class="slide-counter"><span id="currentSlide">1</span> / <span id="totalSlides">23</span></div>
+            <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        // Create dots
+        function createDots() {
+            const dotsContainer = document.getElementById('dotsContainer');
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                if (i === 0) dot.classList.add('active');
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateSlide() {
+            // Update slides
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+
+            // Update dots
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active');
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                }
+            });
+
+            // Update counter
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            updateSlide();
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            updateSlide();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') changeSlide(-1);
+            if (e.key === 'ArrowRight') changeSlide(1);
+        });
+
+        // Initialize
+        createDots();
+        updateSlide();
+    </script>
+</body>
+
+</html>
